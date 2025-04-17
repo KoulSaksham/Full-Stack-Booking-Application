@@ -22,6 +22,8 @@ function Homescreen() {
   const [hasSearched, setHasSearched] = useState(false);
   const [filterOptions, setFilterOptions] = useState({}); // { filterName: [values] }
   const [selectedFilters, setSelectedFilters] = useState({}); // { filterName: selectedValue }
+  const [sortBy, setSortBy] = useState('');
+  const [sortOrder, setSortOrder] = useState('asc');
 
   // Only fetch filters on mount
   useEffect(() => {
@@ -78,6 +80,8 @@ function Homescreen() {
     if (fromDate) params.append('checkInDate', fromDate);
     if (toDate) params.append('checkOutDate', toDate);
     if (searchKey) params.append('searchText', searchKey);
+    if (sortBy) params.append('orderBy', sortBy);
+    if (sortOrder) params.append('order', sortOrder);
     // Add dynamic filters
     Object.entries(selectedFilters).forEach(([key, value]) => {
       if (value) params.append(key, value);
@@ -93,7 +97,7 @@ function Homescreen() {
       fetchRoomsWithFilters();
       setHasSearched(true);
     }
-  }, [fromDate, toDate, searchKey, offset, limit, selectedFilters]);
+  }, [fromDate, toDate, searchKey, offset, limit, selectedFilters, sortBy, sortOrder]);
 
   const fetchRoomsWithFilters = async () => {
     try {
@@ -147,7 +151,6 @@ function Homescreen() {
             placeholder="Search Keyword"
             value={searchKey}
             onChange={handleSearchInput}
-            onKeyUp={() => { }} // optional no-op, could be removed
           />
         </div>
         {filters.map((filterObj) => {
@@ -167,6 +170,36 @@ function Homescreen() {
             </div>
           );
         })}
+        <div className="col-md-2 mt-2">
+          <select
+            className="form-control"
+            value={sortBy}
+            onChange={(e) => {
+              setSortBy(e.target.value);
+              setOffset(0); // reset pagination
+            }}
+          >
+            <option value="">Sort By</option>
+            <option value="price">Price</option>
+            <option value="occupancy">Occupancy</option>
+            <option value="roomType">Room Type</option>
+            <option value="createdAt">Created At</option>
+          </select>
+        </div>
+
+        <div className="col-md-2 mt-2">
+          <select
+            className="form-control"
+            value={sortOrder}
+            onChange={(e) => {
+              setSortOrder(e.target.value);
+              setOffset(0); // reset pagination
+            }}
+          >
+            <option value="asc">Ascending</option>
+            <option value="desc">Descending</option>
+          </select>
+        </div>
 
       </div>
 

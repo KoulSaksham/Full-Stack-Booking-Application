@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.saksham.booking_application.common.exceptions.ErrorCode;
 import com.saksham.booking_application.common.exceptions.ServiceException;
 import com.saksham.booking_application.dto.PaginatedResponse;
 import com.saksham.booking_application.entity.Room;
@@ -38,9 +39,18 @@ public class RoomController {
             @RequestParam(required = false, defaultValue = "") String orderBy,
             @RequestParam LocalDate checkInDate, @RequestParam LocalDate checkOutDate,
             @RequestParam(required = false) Map<String, String> filters) throws ServiceException {
-        return ResponseEntity.ok().body(
-                roomService.getAvailableRooms(searchText, filters, limit, offset, order, orderBy, checkInDate,
-                        checkOutDate));
+        try {
+            return ResponseEntity.ok().body(
+                    roomService.getAvailableRooms(searchText, filters, limit, offset, order, orderBy, checkInDate,
+                            checkOutDate));
+        } catch (ServiceException e) {
+            throw e;
+        } catch (Exception e) {
+            log.error("Error fetching rooms : {}", e.getMessage());
+            e.printStackTrace();
+            throw new ServiceException(ErrorCode.SERVER_ERROR, "Unexpected error occured.");
+        }
+
     }
 
     @GetMapping("/{id}")
@@ -54,13 +64,23 @@ public class RoomController {
     }
 
     @GetMapping("/location")
-    public ResponseEntity<List<String>> getAllTheLocations() {
+    public ResponseEntity<List<String>> getAllTheLocationValues() {
         return ResponseEntity.ok().body(roomService.getAllTheRoomLocations());
     }
-    
+
     @GetMapping("/roomType")
-    public ResponseEntity<RoomType[]> getAllRoomTypes() {
+    public ResponseEntity<RoomType[]> getAllRoomTypesValues() {
         return ResponseEntity.ok().body(RoomType.values());
+    }
+
+    @GetMapping("/price")
+    public ResponseEntity<List<String>> getAllPriceValues() {
+        return ResponseEntity.ok().body(roomService.getAllPrices());
+    }
+
+    @GetMapping("/occupancy")
+    public ResponseEntity<List<String>> getAllOccupancies() {
+        return ResponseEntity.ok().body(roomService.getAllOccupancies());
     }
 
 }

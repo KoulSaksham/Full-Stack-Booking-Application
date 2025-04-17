@@ -29,7 +29,7 @@ public interface RoomRepository extends JpaRepository<Room, String> {
                 )
             )
             AND (:roomType IS NULL OR room_type = :roomType)
-            AND (:occupancy IS NULL OR occupancy = :occupancy)
+            AND (:occupancy IS NULL OR occupancy >= :occupancy)
             AND (:price IS NULL OR price = :price)
             AND (:location IS NULL OR location = :location)
             """, nativeQuery = true)
@@ -45,5 +45,11 @@ public interface RoomRepository extends JpaRepository<Room, String> {
 
     @Query("SELECT DISTINCT r.location from Room r ")
     List<String> findAllTheLocations();
+
+    @Query("SELECT DISTINCT r.occupancy from Room r ")
+    List<String> findDistinctOccupancies();
+
+    @Query("SELECT DISTINCT r.price from Room r ")
+    List<String> findDistinctPrices();
 
 }

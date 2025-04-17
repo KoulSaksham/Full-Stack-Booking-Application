@@ -67,16 +67,17 @@ public class RoomService {
                     throw new ServiceException(ErrorCode.BAD_REQUEST, "Invalid room type : " + filter.get(ROOM_TYPE));
                 }
 
-            } else if (filter.get(OCCUPANCY) != null)
+            }
+            if (filter.get(OCCUPANCY) != null)
                 occupancy = filter.get(OCCUPANCY);
-            else if (filter.get(PRICE) != null) {
+            if (filter.get(PRICE) != null) {
                 try {
                     price = Double.parseDouble(filter.get(PRICE));
                 } catch (NumberFormatException ignored) {
                 }
-            } else if (filter.get(LOCATION) != null) {
-                location = filter.get(LOCATION);
             }
+            if (filter.get(LOCATION) != null)
+                location = filter.get(LOCATION);
 
         }
 
@@ -101,5 +102,13 @@ public class RoomService {
 
     public List<String> getAllTheRoomLocations() {
         return roomRepository.findAllTheLocations();
+    }
+
+    public List<String> getAllOccupancies() {
+        return roomRepository.findDistinctOccupancies();
+    }
+
+    public List<String> getAllPrices() {
+        return roomRepository.findDistinctPrices();
     }
 }

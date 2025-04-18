@@ -17,7 +17,6 @@ function BookingScreen() {
     const [totalAmount, setTotalAmount] = useState();
     const [allowedPayments, setAllowedPayments] = useState([]);
     const [showPaymentPopup, setShowPaymentPopup] = useState(false);
-    const [selectedPayment, setSelectedPayment] = useState(null);
 
     const totalDays = moment(toDate).diff(moment(fromDate), 'days') + 1;
 
@@ -52,8 +51,8 @@ function BookingScreen() {
         fetchParticularRoom();
     }, []);
 
-    async function bookReservation() {
-        if (!selectedPayment) {
+    async function bookReservation(paymentMethod) {
+        if (!paymentMethod) {
             alert("No payment method selected.");
             return;
         }
@@ -63,7 +62,7 @@ function BookingScreen() {
             checkInDate: fromDate,
             checkOutDate: toDate,
             amount: totalAmount,
-            paymentMethod: selectedPayment
+            paymentMethod: paymentMethod
         };
         try {
             setLoading(true);
@@ -121,8 +120,7 @@ function BookingScreen() {
                                     visible={showPaymentPopup}
                                     onClose={() => setShowPaymentPopup(false)}
                                     onPay={(method) => {
-                                        setSelectedPayment(method);
-                                        bookReservation();  // called only after method is selected
+                                        bookReservation(method);  // called only after method is selected
                                     }}
                                     allowedPayments={allowedPayments}
                                 />

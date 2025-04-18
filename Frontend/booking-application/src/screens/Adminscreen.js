@@ -43,7 +43,7 @@ export function Bookings() {
         const fetchAllReservations = async () => {
             try {
                 setLoading(true);
-                const resp = await axios.get('/reservation?limit=10&offset=0', {
+                const resp = await axios.get('/backend/reservation?limit=10&offset=0', {
                     headers: {
                         Authorization: 'Bearer ' + token
                     }
@@ -132,7 +132,7 @@ export function Users() {
         const fetchAllReservations = async () => {
             try {
                 setLoading(true);
-                const resp = await axios.get('/user/all?limit=10&offset=0', {
+                const resp = await axios.get('/backend/user/all?limit=10&offset=0', {
                     headers: {
                         Authorization: 'Bearer ' + token
                     }

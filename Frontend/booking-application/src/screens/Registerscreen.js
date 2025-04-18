@@ -30,7 +30,7 @@ function Registerscreen() {
     try {
       setLoading(true);
 
-      const response = await axios.post('/user/register', {
+      const response = await axios.post('/backend/user/register', {
         username,
         password,
         firstname,

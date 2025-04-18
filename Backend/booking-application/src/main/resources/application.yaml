@@ -21,9 +21,9 @@ spring:
 jwt:
   excluded-paths: /user/login,/user/register,/h2-console/**,/actuator/**,/**/*.jpg,/payment/type,/rooms/filters
   access_token:
-    expire: ${JWT_ACCESS_EXPIRE_TIME:30} # in minutes
+    expire: ${JWT_ACCESS_EXPIRE_TIME} # in minutes
   refresh_token:
-    expire: ${JWT_REFRESH_EXPIRE_TIME:24} # in hours
+    expire: ${JWT_REFRESH_EXPIRE_TIME} # in hours
   public:
     key: ${JWT_PUBLIC_KEY}
   private:

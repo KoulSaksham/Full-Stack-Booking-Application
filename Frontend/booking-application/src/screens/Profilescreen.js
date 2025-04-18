@@ -44,7 +44,7 @@ export function MyBookings() {
         try {
             setLoading(true);
             const resp = await axios.put(
-                '/reservation/' + reservationObj.reservationId,
+                '/backend/reservation/' + reservationObj.reservationId,
                 {},
                 {
                     headers: {
@@ -69,7 +69,7 @@ export function MyBookings() {
         const fetchReservation = async () => {
             try {
                 setLoading(true);
-                const reservationResp = await axios.get('/reservation/' + userObj.id + '?limit=10&offset=0', {
+                const reservationResp = await axios.get('/backend/reservation/' + userObj.id + '?limit=10&offset=0', {
                     headers: {
                         Authorization: 'Bearer ' + token
                     }

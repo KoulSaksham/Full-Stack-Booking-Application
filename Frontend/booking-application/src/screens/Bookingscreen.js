@@ -29,12 +29,12 @@ function BookingScreen() {
         const fetchParticularRoom = async () => {
             try {
                 setLoading(true);
-                const resp = await axios.get('/rooms/' + roomId, {
+                const resp = await axios.get('/backend/rooms/' + roomId, {
                     headers: {
                         Authorization: 'Bearer ' + token
                     }
                 });
-                const allowedPaymentsResp = await axios.get('/payment/types', {
+                const allowedPaymentsResp = await axios.get('/backend/payment/types', {
                     headers: {
                         Authorization: 'Bearer ' + token
                     }
@@ -67,7 +67,7 @@ function BookingScreen() {
         };
         try {
             setLoading(true);
-            const resp = await axios.post('/reservation', reservationDetails, {
+            const resp = await axios.post('/backend/reservation', reservationDetails, {
                 headers: {
                     Authorization: 'Bearer ' + token
                 }

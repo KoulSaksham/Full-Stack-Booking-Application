@@ -23,7 +23,7 @@ function Loginscreen() {
     try {
       setLoading(true);
 
-      const response = await axios.post('/user/login', {
+      const response = await axios.post('/backend/user/login', {
         username,
         password,
       });

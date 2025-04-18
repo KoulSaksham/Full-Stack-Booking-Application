@@ -39,7 +39,7 @@ function Homescreen() {
   const fetchFilters = async () => {
     try {
       setLoading(true);
-      const filtersResp = await axios.get('/rooms/filters');
+      const filtersResp = await axios.get('/backend/rooms/filters');
 
       setFilters(filtersResp.data.content);
 
@@ -47,7 +47,7 @@ function Homescreen() {
       for (const filterObj of filtersResp.data.content) {
         const filterName = filterObj.filter;
         try {
-          const { data: values } = await axios.get(`/rooms/${filterName}`, {
+          const { data: values } = await axios.get(`/backend/rooms/${filterName}`, {
             headers: { Authorization: 'Bearer ' + token }
           });
           options[filterName] = values;
@@ -103,7 +103,7 @@ function Homescreen() {
     try {
       setLoading(true);
       const query = buildQueryParams();
-      const { data } = await axios.get(`/rooms?${query}`, {
+      const { data } = await axios.get(`/backend/rooms?${query}`, {
         headers: { Authorization: 'Bearer ' + token },
       });
       setRooms(data.content || []);
